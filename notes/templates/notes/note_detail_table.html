@@ -1,0 +1,14 @@
+{% load template_tags3 %}
+
+<table class="table table-striped">
+    <tr>
+        <th>Attribute</th>
+        <th>Value</th>
+    </tr>
+    {% for field in fields %}
+    <tr>
+        <td>{{field.verbose_name}}</td>
+        <td>{{object|get_obj_attr:field.name|pretty|linebreaksbr}}</td>
+    </tr>
+    {% endfor %}
+</table>

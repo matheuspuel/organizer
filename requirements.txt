@@ -1,0 +1,8 @@
+django
+gunicorn
+django-heroku
+whitenoise
+psycopg2
+dj-database-url
+django_compressor
+django-libsass

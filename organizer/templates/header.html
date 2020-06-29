@@ -1,0 +1,11 @@
+<nav class="navbar bg-secondary">
+    <a class="btn btn-info fa fa-list-ul" href="{% url 'todolist_index' %}"> To Do List</a>
+    <a class="btn btn-info fa fa-edit" href="{% url 'notes_index' %}"> Notes</a>
+
+
+    <span class="text-white">
+        <a class="fa fa-user" style=""></a>
+        {{request.user}}
+        <a class="btn btn-danger fa fa-sign-out-alt" style="margin-left: 15px" href="{% url 'logout' %}"> Logout</a>
+    </span>
+</nav>

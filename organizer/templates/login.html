@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Planejamento</title>
+</head>
+<body>
+    <h1>Login</h1>
+
+    {% if next %}
+    <form action="{% url 'login_submit' %}?next={{next}}" method="post" > {% csrf_token %}
+    {%else%}
+    <form action="{% url 'login_submit' %}" method="post"> {% csrf_token %}
+    {% endif %}
+
+        <div align="center">
+            <label>User:</label>
+            <input type="text" name="username" autofocus>
+            <label>Password:</label>
+            <input type="password" name="password">
+            <button type="submit">Login</button>
+
+        </div>
+    </form>
+</body>
+</html>

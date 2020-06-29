@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load tags %}
+
+{% block content %}
+
+<form method="post">{% csrf_token %}
+    <p>Are you sure you want to delete "{{ object }}"?</p>
+    <input type="submit" value="Confirm">
+</form>
+
+<a href="{% url model_name|add:'_list' %}">Back</a>
+
+{% include "./"|add:model_name|add:"_detail_table.html" %}
+
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% load template_tags3 %}
+
+{% block content %}
+
+<nav class="navbar">
+    {% for action in class_actions %}
+        {% if action.icon_classes %}
+            <a class="{{action.button_classes}} {{action.icon_classes}}" href="{% url model_name|add:'_'|add:action.name %}"></a>
+        {% else %}
+            <a class="{{action.button_classes}}" href="{% url model_name|add:'_'|add:action.name %}">{{action.verbose_name}}</a>
+        {% endif %}
+    {% endfor %}
+</nav>
+
+<table class="table table-striped">
+    <tr>
+        {% for action in instance_actions %}
+            <th><a class="{{action.icon_classes}}"></a></th>
+        {% endfor %}
+
+        {% for field in fields %}
+            <th>{{field.verbose_name}}</th>
+        {% endfor %}
+    </tr>
+    {% for object in object_list %}
+    <tr>
+        {% for action in instance_actions %}
+            {% if action.icon_classes %}
+                <td><a class="{{action.button_classes}} {{action.icon_classes}}" href="{% url model_name|add:'_'|add:action.name pk=object.id %}"></a></td>
+            {% else %}
+                <td><a href="{% url model_name|add:'_'|add:action.name pk=object.id %}">{{action.verbose_name}}</a></td>
+            {% endif %}
+        {% endfor %}
+
+        {% for field in fields %}
+            <td>{{object|pretty_obj_attr:field}}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
