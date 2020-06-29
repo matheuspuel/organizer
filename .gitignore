@@ -1,7 +1,7 @@
-venv
+/venv
 #*.pyc
 #.env
 db.sqlite3
 #getting-started/*
 /static/CACHE/
-/staticfiles/
+/staticfiles
