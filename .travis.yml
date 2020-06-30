@@ -1,5 +1,12 @@
- language: python
- install:
-  - pip install -r requirements.txt
- script:
-  - python manage.py test
+language: python
+services:
+- postgresql
+install:
+- pip install -r requirements.txt
+script:
+- python manage.py test
+deploy:
+  provider: heroku
+  api_key:
+    secure: AQxHmUwoakQ/jzioH75sf3kPg5BAHnXqnqV6H8xYu9qRhLR/3RmFeKRV54YP01a+y7dcViCw4+NcQXcCpVec5U6kUd9LngMVc0LSkFP1NcL8RLmE3Ca8soEsQxEvE8U68fqygC6Uv2ovBMNd1KTtCeIkEbra0t4ipamLDIokdGMve7Y1kCRKZB2ppugxo4dhajyLTgf19ScRz8CePE5gm46/VYlPtiBV/HMZVURx3jdfM605WFiAxTE/1Nejdo+QA7tHJh0qOFFyh6VUB9a1sh/N/znh+RHCe6aSNhZLN5QORhlFMgL1KcxhbmJxnledfv10wTbTcpfVgv0aBKjp301ZG0mT1LUTtWR0DBJDQZodseHWjbluFgKQ3Zg6CqZjtSlF413QjELQ+ZmNOyNJkTuFecShD83bcns2vKYEnE6auFdOLX/24ssjCK321vIPiOKa996MwSHz020PW24HWmNoewZlCNFsAmGXWIP6QRjMftgjQbQTLJ00n+ZfKCvEwkia5lYoi2NW+Zj+yCDA2An+i8+r76KniZAO0YWVr6HuPMsbzvIlOTDqtMDm2cocZjztSqJDwPiDdWLAw0y/Xh8ee1xPl1Dv03z5+NhDZNCimZwUlMuqcS49zAPAwYC/21vHPxDdedtjWpWV0gKfecKFHY95BvHrKDByaOCArig=
+  app: organizer23
