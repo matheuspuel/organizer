@@ -30,7 +30,7 @@ class TestViews(TestCase):
         self.assertEquals(response.status_code, 404, 'Incorrect URL should return 404 error')
 
     def test_ci_cd(self):
-        self.assertTrue(False, 'Testing Heroku CI/CD again')
+        self.assertTrue(True, 'Testing Heroku CI/CD again')
 
     def test_ci_cd2(self):
         self.assertFalse(False, 'Testing Heroku CI/CD again2')
