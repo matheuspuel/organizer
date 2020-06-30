@@ -32,5 +32,8 @@ class TestViews(TestCase):
     def test_ci_cd(self):
         self.assertTrue(False, 'Testing Heroku CI/CD again')
 
+    def test_ci_cd2(self):
+        self.assertFalse(False, 'Testing Heroku CI/CD again2')
+
 
 
