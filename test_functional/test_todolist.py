@@ -9,7 +9,8 @@ from todolist import models
 
 class TestFunctionalFirst(StaticLiveServerTestCase):
     def setUp(self):
-        self.browser = webdriver.Chrome('test_functional/chromedriver.exe')
+        # self.browser = webdriver.Chrome('test_functional/chromedriver_windows.exe')
+        self.browser = webdriver.Chrome('test_functional/chromedriver_linux')
 
     # def tearDown(self):
     #     self.browser.close()
