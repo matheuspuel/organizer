@@ -2,7 +2,8 @@ from selenium import webdriver
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.urls import reverse
 import time
-
+import os
+from organizer.settings import BASE_DIR
 from django.contrib.auth.models import User
 from todolist import models
 
@@ -10,7 +11,7 @@ from todolist import models
 class TestFunctionalFirst(StaticLiveServerTestCase):
     def setUp(self):
         # self.browser = webdriver.Chrome('test_functional/chromedriver_windows.exe')
-        self.browser = webdriver.Chrome('/test_functional/chromedriver_linux')
+        self.browser = webdriver.Chrome(os.path.join(BASE_DIR, 'test_functional', 'chromedriver_linux'))
 
     # def tearDown(self):
     #     self.browser.close()
