@@ -4,20 +4,22 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.urls import reverse
 import time
 import os
-from organizer.settings import BASE_DIR
+from organizer.settings.testing import LOCAL_TEST
 from django.contrib.auth.models import User
 from todolist import models
-
-chrome_options = Options()
-chrome_options.add_argument('--headless')
-chrome_options.add_argument('--no-sandbox')
-chrome_options.add_argument('--disable-dev-shm-usage')
 
 
 class TestFunctionalFirst(StaticLiveServerTestCase):
     def setUp(self):
-        # self.browser = webdriver.Chrome('test_functional/chromedriver_windows.exe')
-        self.browser = webdriver.Chrome('/home/travis/virtualenv/python3.6/bin/chromedriver', chrome_options=chrome_options)
+        if LOCAL_TEST:
+            self.browser = webdriver.Chrome('test_functional/chromedriver.exe')
+        else:
+            chrome_options = Options()
+            chrome_options.add_argument('--headless')
+            chrome_options.add_argument('--no-sandbox')
+            chrome_options.add_argument('--disable-dev-shm-usage')
+            self.browser = webdriver.Chrome('/home/travis/virtualenv/python3.6/bin/chromedriver',
+                                            chrome_options=chrome_options)
 
     # def tearDown(self):
     #     self.browser.close()
@@ -32,4 +34,3 @@ class TestFunctionalFirst(StaticLiveServerTestCase):
         self.browser.find_element_by_tag_name('form').submit()
         self.assertIn(reverse('task_list'), self.browser.current_url, 'Should be in task_list')
         self.assertNotIn('?next', self.browser.current_url, 'Should not have "?next" in url')
-
