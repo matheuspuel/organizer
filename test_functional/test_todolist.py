@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.urls import reverse
 import time
@@ -7,11 +8,16 @@ from organizer.settings import BASE_DIR
 from django.contrib.auth.models import User
 from todolist import models
 
+chrome_options = Options()
+chrome_options.add_argument('--headless')
+chrome_options.add_argument('--no-sandbox')
+chrome_options.add_argument('--disable-dev-shm-usage')
+
 
 class TestFunctionalFirst(StaticLiveServerTestCase):
     def setUp(self):
         # self.browser = webdriver.Chrome('test_functional/chromedriver_windows.exe')
-        self.browser = webdriver.Chrome('/home/travis/virtualenv/python3.6/bin/chromedriver')
+        self.browser = webdriver.Chrome('/home/travis/virtualenv/python3.6/bin/chromedriver', chrome_options=chrome_options)
 
     # def tearDown(self):
     #     self.browser.close()
