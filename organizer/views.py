@@ -25,7 +25,6 @@ def login_submit(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-    print(request.GET)
     next_path = reverse('index')
     if request.GET:
         next_path = request.GET.get('next')

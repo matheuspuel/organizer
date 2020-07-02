@@ -6,3 +6,4 @@ psycopg2
 dj-database-url
 django_compressor
 django-libsass
+selenium
