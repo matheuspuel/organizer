@@ -1,39 +1,58 @@
-from django.test import TestCase, SimpleTestCase
+from django.test import TestCase, SimpleTestCase, Client
 from django.urls import reverse
+from django.contrib.auth.models import User
+from . import models
 
 
-# class TestTest(SimpleTestCase):
-#     def test_first_test(self):
-#         assert 2 == 2, 'My first test'
-#         assert 1 == 1, 'My sec test'
-#
-#     def test_second_test(self):
-#         assert 1 == 1
-#
-#
-# class TestSecType(TestCase):
-#     def setUp(self):
-#         self.a = 1
-#
-#     def test_one(self):
-#         self.assertEquals(self.a, 1, 'Should be right')
+class TestViewsAnonymous(TestCase):
 
-
-class TestViews(TestCase):
-
-    def test_response(self):
+    def test_render(self):
         response = self.client.get(reverse('login'))
         self.assertEquals(response.status_code, 200, 'Login page should be accessible')
+        self.assertTemplateUsed(response, 'login.html', 'Should render template login.html')
 
     def test_404(self):
         response = self.client.get('/lsdfjkdskfjsdklfj')
         self.assertEquals(response.status_code, 404, 'Incorrect URL should return 404 error')
 
-    def test_ci_cd(self):
-        self.assertTrue(True, 'Testing Heroku CI/CD again')
+    def test_redirect(self):
+        response = self.client.get(reverse('task_list'))
+        self.assertNotEquals(response.status_code, 200, 'Task List page should not be accessible')
+        self.assertEquals(response.status_code, 302, 'Should redirect')
 
-    def test_ci_cd2(self):
-        self.assertFalse(False, 'Testing Heroku CI/CD again2')
+        response = self.client.get(response.url)
+        self.assertEquals(response.status_code, 200, 'Should be accessible')
+        self.assertTemplateUsed(response, 'login.html', 'Should render template login.html')
+
+
+class TestViewsUser(TestCase):
+    def setUp(self):
+        self.user1 = User.objects.create_user(username='user1', password='123456')
+        self.client.login(username='user1', password='123456')
+
+    def test_list(self):
+        response = self.client.get(reverse('task_list'))
+        self.assertEquals(response.status_code, 200, 'Task List page should be accessible')
+        self.assertTemplateUsed(response, 'todolist/task_list.html', 'Should render template')
+
+    def test_detail(self):
+        task1 = models.Task.objects.create(title='task1', user=self.user1)
+        response = self.client.get(reverse('task_detail', kwargs=dict(pk=task1.id)))
+        self.assertEquals(response.status_code, 200, 'Task List page should be accessible')
+        self.assertTemplateUsed(response, 'todolist/task_detail.html', 'Should render template')
+
+    def test_detail_404(self):
+        response = self.client.get(reverse('task_detail', kwargs=dict(pk=1)))
+        self.assertEquals(response.status_code, 404, 'Should not be found')
+
+    def test_detail_block(self):
+        user2 = User.objects.create_user(username='user2', password='123456')
+        task1 = models.Task.objects.create(title='task1', user=user2)
+        response = self.client.get(reverse('task_detail', kwargs=dict(pk=task1.id)))
+        self.assertEquals(response.status_code, 404, 'Should be blocked')
+
+
+
 
 
 
