@@ -4,14 +4,14 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.urls import reverse
 import time
 import os
-from organizer.settings.testing import LOCAL_TEST
+from django.conf import settings
 from django.contrib.auth.models import User
 from todolist import models
 
 
 class TestFunctionalFirst(StaticLiveServerTestCase):
     def setUp(self):
-        if LOCAL_TEST:
+        if settings.LOCAL_TEST:
             self.browser = webdriver.Chrome('test_functional/chromedriver.exe')
         else:
             chrome_options = Options()
