@@ -31,3 +31,5 @@ class TestFunctionalFirst(StaticLiveServerTestCase):
         self.browser.find_element_by_tag_name('form').submit()
         self.assertIn(reverse('task_list'), self.browser.current_url, 'Should be in task_list')
         self.assertNotIn('?next', self.browser.current_url, 'Should not have "?next" in url')
+
+
