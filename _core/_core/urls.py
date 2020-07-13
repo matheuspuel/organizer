@@ -1,4 +1,4 @@
-"""organizer URL Configuration
+"""_core URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.0/topics/http/urls/
@@ -16,10 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, reverse_lazy
 from django.views.generic import RedirectView
-from todolist import views
+from _core._core import views
 
+urlpatterns = [
+    path('admin/', admin.site.urls, name='admin'),
+    path('accounts/login/', views.login_view, name='login'),
+    path('accounts/login/submit/', views.login_submit, name='login_submit'),
+    path('accounts/logout/', views.logout_submit, name='logout'),
 
-urlpatterns = views.TaskViewSet().url_patterns()
-urlpatterns.append(
-    path('', RedirectView.as_view(url=reverse_lazy('task_list')), name='todolist_index')
-)
+    path('', RedirectView.as_view(url=reverse_lazy('todolist_index')), name='index'),
+
+    path('todolist/', include('todolist.urls'), name='todolist'),
+    path('notes/', include('notes.urls'), name='notes'),
+]

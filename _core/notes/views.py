@@ -1,5 +1,4 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
 from django.forms import ModelForm
 from django.http import HttpResponseRedirect
 from django.urls import path

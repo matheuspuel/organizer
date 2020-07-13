@@ -2,11 +2,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.urls import reverse
-import time
-import os
 from django.conf import settings
 from django.contrib.auth.models import User
-from todolist import models
 
 
 class TestFunctionalFirst(StaticLiveServerTestCase):
