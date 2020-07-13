@@ -15,7 +15,7 @@ import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BASE_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), os.pardir)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 
 PROJECT_NAME = '_core'
@@ -67,9 +67,9 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, PROJECT_NAME, 'templates'),
-            os.path.join(BASE_DIR, 'todolist', 'templates'),
-            os.path.join(BASE_DIR, 'notes', 'templates'),
+            os.path.join(BASE_DIR, PROJECT_NAME, '_core', 'templates'),
+            os.path.join(BASE_DIR, PROJECT_NAME, 'todolist', 'templates'),
+            os.path.join(BASE_DIR, PROJECT_NAME, 'notes', 'templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {

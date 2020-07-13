@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, reverse_lazy
 from django.views.generic import RedirectView
-from _core._core import views
+from _core import views
 
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),

@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.urls import path, reverse_lazy
 from django.views.generic import RedirectView
-from _core.notes import views
+from notes import views
 
 urlpatterns = views.NoteViewSet().url_patterns()
 urlpatterns.append(
