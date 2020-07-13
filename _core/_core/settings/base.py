@@ -45,8 +45,8 @@ INSTALLED_APPS = [
 
     'compressor',
 
-    '_core.todolist',
-    '_core.notes.apps.NotesConfig',
+    'todolist',
+    'notes.apps.NotesConfig',
 ]
 
 MIDDLEWARE = [
