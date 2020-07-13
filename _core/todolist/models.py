@@ -6,13 +6,6 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.urls import reverse_lazy
 
 
-class CalculatedField:
-    def __init__(self, name, verbose_name, pretty_type=None):
-        self.name = name
-        self.verbose_name = verbose_name
-        self.pretty_type = pretty_type
-
-
 class Task(models.Model):
     title = models.CharField(max_length=120, verbose_name='Title')
     details = models.TextField(blank=True, null=True, verbose_name='Details')
@@ -69,7 +62,6 @@ class Task(models.Model):
             return result
         else:
             return None
-    time_to_end_field = CalculatedField(name='time_to_end', verbose_name='Time Left', pretty_type='dhm')
 
     @staticmethod
     def list_active(user):

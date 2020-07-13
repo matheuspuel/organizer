@@ -4,46 +4,59 @@
 
 {% block content %}
 
+<h2 style="margin-left: 15px">Todolist - Task List</h2>
+
 {% include 'todolist/task_quick_form.html' %}
 
 <nav class="navbar">
-    {% for action in class_actions %}
-        {% if action.icon_classes %}
-            <a class="{{action.button_classes}} {{action.icon_classes}}" href="{% url model_name|add:'_'|add:action.name %}"></a>
-        {% else %}
-            <a class="{{action.button_classes}}" href="{% url model_name|add:'_'|add:action.name %}">{{action.verbose_name}}</a>
-        {% endif %}
-    {% endfor %}
+    <a class="btn btn-success fa fa-plus" href="{% url 'task_create' %}"></a>
+    <a class="btn btn-info" href="{% url 'task_list' %}">List</a>
+    <a class="btn btn-info" href="{% url 'task_completed_list' %}">Completed List</a>
+    <a class="btn btn-info" href="{% url 'task_completed_list' %}">Deleted List</a>
 </nav>
 
 <table class="table table-striped">
-    <tr>
-        {% for action in instance_actions %}
-        <th><a class="{{action.icon_classes}}"></a></th>
+    <thead style="background-color: #bfbfbf">
+        <tr>
+            <th><a class="fa fa-search"></a></th>
+            <th><a class="fa fa-pencil-alt"></a></th>
+            <th><a class="fa fa-check"></a></th>
+            <th><a class="fa fa-trash"></a></th>
+            <th>Priority</th>
+            <th>Importance</th>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Place</th>
+            <th>Duration</th>
+            <th>Start</th>
+            <th>Deadline</th>
+            <th>Time Left</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for object in object_list %}
+
+        <tr {% if not object.has_started %} style="background-color:lightgray;" {% endif %}>
+
+            <td><a class="btn btn-info fa fa-search" href="{% url 'task_detail' pk=object.id %}"></a></td>
+            <td><a class="btn btn-warning fa fa-pencil-alt" href="{% url 'task_update' pk=object.id %}"></a></td>
+            <td><a class="btn btn-success fa fa-check" href="{% url 'task_complete' pk=object.id %}"></a></td>
+            <td><a class="btn btn-danger fa fa-trash" href="{% url 'task_delete' pk=object.id %}"></a></td>
+            <td>{{object.priority|default_if_none:''}}</td>
+            <td>{{object.importance|default_if_none:''}}</td>
+            <td>{{object.title|default_if_none:''}}</td>
+            <td>{{object.category|default_if_none:''}}</td>
+            <td>{{object.place|default_if_none:''}}</td>
+            <td>{{object.duration|format_timedelta}}</td>
+            <td>{{object.start|format_datetime}}</td>
+            <td>{{object.deadline|format_datetime}}</td>
+            <td>{{object.time_to_end|format_timedelta:'dhm'}}</td>
+            <td>{{object.status|default_if_none:''}}</td>
+
+        </tr>
         {% endfor %}
-
-        {% for field in fields %}
-        <th>{{field.verbose_name}}</th>
-        {% endfor %}
-    </tr>
-    {% for object in object_list %}
-
-    <tr {% if not object.has_started %} style="background-color:lightgray;" {% endif %}>
-
-        {% for action in instance_actions %}
-            {% if action.icon_classes %}
-                <td><a class="{{action.button_classes}} {{action.icon_classes}}" href="{% url model_name|add:'_'|add:action.name pk=object.id %}"></a></td>
-            {% else %}
-                <td><a href="{% url model_name|add:'_'|add:action.name pk=object.id %}">{{action.verbose_name}}</a></td>
-            {% endif %}
-        {% endfor %}
-
-        {% for field in fields %}
-        <td>{{object|pretty_obj_attr:field}}</td>
-        {% endfor %}
-
-    </tr>
-    {% endfor %}
+    </tbody>
 </table>
 
 {% endblock %}

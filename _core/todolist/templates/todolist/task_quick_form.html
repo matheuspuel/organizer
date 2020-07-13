@@ -1,4 +1,4 @@
-<form method="post" action="{% url model_name|add:'_'|add:'quick_create' %}" style="margin-left: 15px">{% csrf_token %}
+<form method="post" action="{% url 'task_quick_create' %}" style="margin-left: 15px">{% csrf_token %}
     {{ quick_form.as_table }}
     <input type="submit" value="Quick Save" class="btn btn-success">
 </form>

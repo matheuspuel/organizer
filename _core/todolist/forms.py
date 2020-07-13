@@ -34,6 +34,6 @@ class TaskQuickModelForm(forms.ModelForm):
         fields = ['title']
 
     title = forms.CharField(widget=forms.TextInput(attrs={
-        'autofocus':'autofocus',
+        'autofocus': 'autofocus',
         'size': '100%'
     }))
