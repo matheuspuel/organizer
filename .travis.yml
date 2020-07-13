@@ -10,7 +10,7 @@ before_script:
 - unzip chromedriver_linux64.zip -d /home/travis/virtualenv/python3.6/bin/
 - export CHROME_BIN=chromium-browser
 script:
-- python manage.py test --settings=_core.settings.travis
+- python _core/manage.py test --settings=_core.settings.travis
 deploy:
   provider: heroku
   api_key:

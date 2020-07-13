@@ -1,1 +1,1 @@
-web: python manage.py runserver 0.0.0.0:5000 --settings=organizer.settings.production
+web: python _core/manage.py runserver 0.0.0.0:5000 --settings=_core.settings.production

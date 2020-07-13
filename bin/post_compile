@@ -2,6 +2,6 @@
 
 cd "$1" || exit 1
 echo "-----> Compressing (Compiling SCSS)"
-python manage.py compress --force --settings=organizer.settings.production
+python _core/manage.py compress --force --settings=_core.settings.production
 echo "-----> Collecting static files"
-python manage.py collectstatic --noinput --traceback --settings=organizer.settings.production
+python _core/manage.py collectstatic --noinput --traceback --settings=_core.settings.production

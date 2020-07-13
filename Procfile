@@ -1,1 +1,1 @@
-web: gunicorn organizer.wsgi --log-file -
+web: gunicorn _core.wsgi --log-file -
