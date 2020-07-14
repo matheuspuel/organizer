@@ -23,7 +23,8 @@
     </tr>
     {% for object in object_list %}
     <tr>
-        <td><a class="btn btn-info fa fa-search" href="{% url 'note_detail' pk=object.id %}"></a></td>
+        <td><i onclick="showDetails({{ object.id }})" class="btn btn-info fa fa-search"></i></td>
+{#        <td><a class="btn btn-info fa fa-search" href="{% url 'note_detail' pk=object.id %}"></a></td>#}
         <td><a class="btn btn-warning fa fa-pencil-alt" href="{% url 'note_update' pk=object.id %}"></a></td>
         <td><a class="btn btn-danger fa fa-trash" href="{% url 'note_delete' pk=object.id %}"></a></td>
 
@@ -31,7 +32,38 @@
         <td>{{object.category|default_if_none:''}}</td>
         <td>{{object.importance|default_if_none:''}}</td>
     </tr>
+    <tr hidden id="text_{{ object.id }}">
+        <td colspan="6">
+            <span style="display: table;">
+                <span style="float: left; width: 15%">
+                    Creation:<br>
+                    {{object.create_time|format_datetime}}
+                </span>
+                <span style="float: left; width: 10%">
+                    Deleted:<br>
+                    {{object.deleted|default_if_none:''}}
+                </span>
+                <span style="float: left; width: 75%">
+                    Text:<br>
+                    {{object.text|linebreaksbr|default_if_none:''}}
+                </span>
+            </span>
+        </td>
+    </tr>
     {% endfor %}
 </table>
+
+<script>
+
+function showDetails(id){
+    var newRow = document.getElementById('text_' + id)
+    if (newRow.hidden){
+        document.getElementById('text_' + id).removeAttribute('hidden')
+    } else{
+        document.getElementById('text_' + id).setAttribute('hidden', 'hidden')
+    }
+}
+
+</script>
 
 {% endblock %}
