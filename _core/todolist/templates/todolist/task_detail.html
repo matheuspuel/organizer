@@ -4,20 +4,22 @@
 
 {% block content %}
 
-<nav class="navbar">
-    <a class="btn btn-warning fa fa-arrow-left" href="{% url model_name|add:'_list' %}"> Back</a>
+<h2 style="margin-left: 15px">Todolist - Task Detail</h2>
 
-    {% for action in instance_actions %}
-        {% if action.icon_classes %}
-            <td><a class="{{action.button_classes}} {{action.icon_classes}}"
-                   href="{% url model_name|add:'_'|add:action.name pk=object.id %}"> {{action.verbose_name}}</a></td>
-        {% else %}
-            <td><a href="{% url model_name|add:'_'|add:action.name pk=object.id %}">{{action.verbose_name}}</a></td>
-        {% endif %}
-    {% endfor %}
+<nav class="navbar">
+    <a class="btn btn-warning fa fa-arrow-left" href="{% url 'task_list' %}"> Back</a>
+
+    <td><a class="btn btn-info fa fa-search"
+           href="{% url 'task_detail' pk=object.id %}"> Detail</a></td>
+    <td><a class="btn btn-warning fa fa-pencil-alt"
+           href="{% url 'task_update' pk=object.id %}"> Update</a></td>
+    <td><a class="btn btn-success fa fa-check"
+           href="{% url 'task_complete' pk=object.id %}"> Complete</a></td>
+    <td><a class="btn btn-danger fa fa-trash"
+           href="{% url 'task_delete' pk=object.id %}"> Delete</a></td>
 
 </nav>
 
-{% include "./"|add:model_name|add:"_detail_table.html" %}
+{% include "todolist/task_detail_table.html" %}
 
 {% endblock %}

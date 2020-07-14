@@ -5,10 +5,56 @@
         <th>Attribute</th>
         <th>Value</th>
     </tr>
-    {% for field in fields %}
     <tr>
-        <td>{{field.verbose_name}}</td>
-        <td>{{object|get_obj_attr:field.name|pretty|linebreaksbr}}</td>
+        <td>Title</td>
+        <td>{{object.title|default_if_none:''}}</td>
     </tr>
-    {% endfor %}
+    <tr>
+        <td>Details</td>
+        <td>{{object.details|linebreaksbr|default_if_none:''}}</td>
+    </tr>
+    <tr>
+        <td>Category</td>
+        <td>{{object.category|default_if_none:''}}</td>
+    </tr>
+    <tr>
+        <td>Place</td>
+        <td>{{object.place|default_if_none:''}}</td>
+    </tr>
+    <tr>
+        <td>Create Time</td>
+        <td>{{object.create_time|format_datetime}}</td>
+    </tr>
+    <tr>
+        <td>Start</td>
+        <td>{{object.start|format_datetime}}</td>
+    </tr>
+    <tr>
+        <td>Deadline</td>
+        <td>{{object.deadline|format_datetime}}</td>
+    </tr>
+    <tr>
+        <td>Complete Time</td>
+        <td>{{object.complete_time|format_datetime}}</td>
+    </tr>
+    <tr>
+        <td>Duration</td>
+        <td>{{object.duration|format_timedelta}}</td>
+    </tr>
+    <tr>
+        <td>Importance</td>
+        <td>{{object.importance|default_if_none:''}}</td>
+    </tr>
+    <tr>
+        <td>Priority</td>
+        <td>{{object.priority|default_if_none:''}}</td>
+    </tr>
+    <tr>
+        <td>Status</td>
+        <td>{{object.status|default_if_none:''}}</td>
+    </tr>
+    <tr>
+        <td>Deleted</td>
+        <td>{{object.deleted|default_if_none:''}}</td>
+    </tr>
 </table>

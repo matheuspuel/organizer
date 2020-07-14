@@ -25,15 +25,17 @@ class TaskModelForm(forms.ModelForm):
 
     class Meta:
         model = models.Task
-        exclude = ['user', 'complete_time', 'deleted']
+        fields = (
+            'title', 'details', 'category', 'place', 'start', 'deadline', 'duration', 'importance', 'priority',
+            'status',)
 
 
 class TaskQuickModelForm(forms.ModelForm):
     class Meta:
         model = models.Task
-        fields = ['title']
+        fields = ('title', )
 
     title = forms.CharField(widget=forms.TextInput(attrs={
         'autofocus': 'autofocus',
-        'size': '100%'
+        'size': '100'
     }))

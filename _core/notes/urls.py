@@ -17,21 +17,14 @@ from django.urls import path, reverse_lazy
 from django.views.generic import RedirectView
 from notes import views
 
-urlpatterns = views.NoteViewSet().url_patterns()
-urlpatterns.append(
-    path('', RedirectView.as_view(url=reverse_lazy('note_list')), name='notes_index')
-)
+urlpatterns = [
+    path('', RedirectView.as_view(url=reverse_lazy('note')), name='notes_index'),
+    path('note/', RedirectView.as_view(url=reverse_lazy('note_list')), name='note'),
+    path('note/list/', views.NoteListView.as_view(), name='note_list'),
+    path('note/deleted/', views.NoteDeletedListView.as_view(), name='note_deleted_list'),
 
-
-# urlpatterns = [
-#     # path('', RedirectView.as_view(url='note/'), name='notes'),
-#     path('', views.notes, name='notes'),
-#     path('note/', RedirectView.as_view(url='active/'), name='note'),
-#     path('note/active/', views.note_list_active, name='note_active'),
-#     path('note/deleted/', views.note_list_deleted, name='note_deleted'),
-#
-#     path('note/<int:id>/', views.note_detail, name='note_detail'),
-#     path('note/add/', views.note_add, name='note_add'),
-#     path('note/<int:id>/change/', views.note_change, name='note_change'),
-#     path('note/<int:id>/delete/', views.note_delete, name='note_delete'),
-# ]
+    path('note/<int:pk>/', views.NoteDetailView.as_view(), name='note_detail'),
+    path('note/create/', views.NoteCreateView.as_view(), name='note_create'),
+    path('note/<int:pk>/update/', views.NoteUpdateView.as_view(), name='note_update'),
+    path('note/<int:pk>/delete/', views.NoteDeleteView.as_view(), name='note_delete'),
+]

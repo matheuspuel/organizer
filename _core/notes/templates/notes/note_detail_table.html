@@ -5,10 +5,29 @@
         <th>Attribute</th>
         <th>Value</th>
     </tr>
-    {% for field in fields %}
+
     <tr>
-        <td>{{field.verbose_name}}</td>
-        <td>{{object|get_obj_attr:field.name|pretty|linebreaksbr}}</td>
+        <td>Title</td>
+        <td>{{ object.title|default_if_none:''}}</td>
     </tr>
-    {% endfor %}
+    <tr>
+        <td>Text</td>
+        <td>{{ object.text|linebreaksbr|default_if_none:''}}</td>
+    </tr>
+    <tr>
+        <td>Category</td>
+        <td>{{ object.category|default_if_none:''}}</td>
+    </tr>
+    <tr>
+        <td>Create Time</td>
+        <td>{{ object.create_time|format_datetime}}</td>
+    </tr>
+    <tr>
+        <td>Importance</td>
+        <td>{{ object.importance|default_if_none:''}}</td>
+    </tr>
+    <tr>
+        <td>Deleted</td>
+        <td>{{ object.deleted|default_if_none:''}}</td>
+    </tr>
 </table>

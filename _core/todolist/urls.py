@@ -22,12 +22,12 @@ from todolist import views
 urlpatterns = [
     path('', RedirectView.as_view(url=reverse_lazy('task_list')), name='todolist_index'),
     path('task/list/', views.TaskListView.as_view(), name='task_list'),
-    path('task/completed_list/', views.TaskListView.as_view(), name='task_completed_list'),
-    path('task/deleted_list/', views.TaskListView.as_view(), name='task_deleted_list'),
-    path('task/<int:pk>/detail/', views.TaskListView.as_view(), name='task_detail'),
+    path('task/completed_list/', views.TaskCompletedListView.as_view(), name='task_completed_list'),
+    path('task/deleted_list/', views.TaskDeletedListView.as_view(), name='task_deleted_list'),
+    path('task/<int:pk>/detail/', views.TaskDetailList.as_view(), name='task_detail'),
     path('task/create/', views.TaskCreateView.as_view(), name='task_create'),
     path('task/<int:pk>/update/', views.TaskUpdateView.as_view(), name='task_update'),
-    path('task/<int:pk>/complete/', views.TaskListView.as_view(), name='task_complete'),
-    path('task/<int:pk>/delete/', views.TaskListView.as_view(), name='task_delete'),
+    path('task/<int:pk>/complete/', views.TaskCompleteView.as_view(), name='task_complete'),
+    path('task/<int:pk>/delete/', views.TaskDeleteView.as_view(), name='task_delete'),
     path('task/quick_create/', views.TaskQuickCreateView.as_view(), name='task_quick_create'),
 ]

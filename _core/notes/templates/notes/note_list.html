@@ -4,39 +4,32 @@
 
 {% block content %}
 
+<h2 style="margin-left: 15px">Notes - Note Detail</h2>
+
 <nav class="navbar">
-    {% for action in class_actions %}
-        {% if action.icon_classes %}
-            <a class="{{action.button_classes}} {{action.icon_classes}}" href="{% url model_name|add:'_'|add:action.name %}"></a>
-        {% else %}
-            <a class="{{action.button_classes}}" href="{% url model_name|add:'_'|add:action.name %}">{{action.verbose_name}}</a>
-        {% endif %}
-    {% endfor %}
+    <a class="btn btn-success fa fa-plus" href="{% url 'note_create' %}"></a>
+    <a class="btn btn-info fa fa-list" href="{% url 'note_list' %}"> Active</a>
+    <a class="btn btn-info fa fa-list" href="{% url 'note_deleted_list' %}"> Deleted</a>
 </nav>
 
 <table class="table table-striped">
     <tr>
-        {% for action in instance_actions %}
-            <th><a class="{{action.icon_classes}}"></a></th>
-        {% endfor %}
-
-        {% for field in fields %}
-            <th>{{field.verbose_name}}</th>
-        {% endfor %}
+        <th><a class="fa fa-search"></a></th>
+        <th><a class="fa fa-pencil-alt"></a></th>
+        <th><a class="fa fa-trash"></a></th>
+        <th>Title</th>
+        <th>Category</th>
+        <th>Importance</th>
     </tr>
     {% for object in object_list %}
     <tr>
-        {% for action in instance_actions %}
-            {% if action.icon_classes %}
-                <td><a class="{{action.button_classes}} {{action.icon_classes}}" href="{% url model_name|add:'_'|add:action.name pk=object.id %}"></a></td>
-            {% else %}
-                <td><a href="{% url model_name|add:'_'|add:action.name pk=object.id %}">{{action.verbose_name}}</a></td>
-            {% endif %}
-        {% endfor %}
+        <td><a class="btn btn-info fa fa-search" href="{% url 'note_detail' pk=object.id %}"></a></td>
+        <td><a class="btn btn-warning fa fa-pencil-alt" href="{% url 'note_update' pk=object.id %}"></a></td>
+        <td><a class="btn btn-danger fa fa-trash" href="{% url 'note_delete' pk=object.id %}"></a></td>
 
-        {% for field in fields %}
-            <td>{{object|pretty_obj_attr:field}}</td>
-        {% endfor %}
+        <td>{{object.title|default_if_none:''}}</td>
+        <td>{{object.category|default_if_none:''}}</td>
+        <td>{{object.importance|default_if_none:''}}</td>
     </tr>
     {% endfor %}
 </table>

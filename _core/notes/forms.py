@@ -5,6 +5,11 @@ from django.contrib.auth.models import User
 
 class NoteForm(forms.ModelForm):
 
+    title = forms.CharField(widget=forms.TextInput(attrs={
+        'autofocus': 'autofocus',
+        'size': '40'
+    }))
+
     class Meta:
         model = Note
         fields = [
@@ -13,8 +18,3 @@ class NoteForm(forms.ModelForm):
             'category',
             'importance',
         ]
-
-    def __init__(self, request=None, instance=None):
-        super().__init__(request, instance=instance)
-
-        self.fields['title'].widget.attrs['style'] = 'width:350px'

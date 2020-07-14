@@ -1,13 +1,11 @@
 from django.http import HttpResponseRedirect
-from django.urls import path
 from django.views import generic
-from django.views.generic.edit import ModelFormMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from . import models
 from . import forms
 
 
-class TaskListView(generic.ListView, LoginRequiredMixin):
+class TaskListView(LoginRequiredMixin, generic.ListView):
     model = models.Task
 
     def get_queryset(self):
@@ -19,9 +17,30 @@ class TaskListView(generic.ListView, LoginRequiredMixin):
         return context
 
 
-class TaskQuickCreateView(generic.CreateView):
+class TaskCompletedListView(TaskListView):
+    def get_queryset(self):
+        return self.model.list_completed(user=self.request.user)
+
+
+class TaskDeletedListView(TaskListView):
+    def get_queryset(self):
+        return self.model.list_deleted(user=self.request.user)
+
+
+class TaskDetailList(LoginRequiredMixin, generic.DetailView):
     model = models.Task
-    fields = ('title',)
+    template_name = 'todolist/task_detail.html'
+
+    def get_queryset(self):
+        return self.model.objects.filter(user=self.request.user)
+
+
+class TaskQuickCreateView(LoginRequiredMixin, generic.CreateView):
+    model = models.Task
+    form_class = forms.TaskQuickModelForm
+
+    def get_queryset(self):
+        return self.model.objects.filter(user=self.request.user)
 
     def form_valid(self, form):
         obj = form.save(commit=False)
@@ -30,10 +49,12 @@ class TaskQuickCreateView(generic.CreateView):
         return super().form_valid(form)
 
 
-class TaskCreateView(generic.CreateView, LoginRequiredMixin):
+class TaskCreateView(LoginRequiredMixin, generic.CreateView):
     model = models.Task
-    fields = (
-        'title', 'details', 'category', 'place', 'start', 'deadline', 'duration', 'importance', 'priority', 'status',)
+    form_class = forms.TaskModelForm
+
+    def get_queryset(self):
+        return self.model.objects.filter(user=self.request.user)
 
     def form_valid(self, form):
         obj = form.save(commit=False)
@@ -42,7 +63,7 @@ class TaskCreateView(generic.CreateView, LoginRequiredMixin):
         return super().form_valid(form)
 
 
-class TaskUpdateView(generic.UpdateView, LoginRequiredMixin):
+class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = models.Task
     fields = (
         'title', 'details', 'category', 'place', 'start', 'deadline', 'duration', 'importance', 'priority', 'status',)
@@ -56,3 +77,30 @@ class TaskUpdateView(generic.UpdateView, LoginRequiredMixin):
         obj.save()
         return super().form_valid(form)
 
+
+class TaskCompleteView(LoginRequiredMixin, generic.View, generic.edit.ModelFormMixin):
+    model = models.Task
+    success_url = model.get_absolute_url()
+
+    def get_queryset(self):
+        return self.model.objects.filter(user=self.request.user)
+
+    def get(self, request, *args, **kwargs):
+        obj = self.get_object()
+        obj.toggle_complete()
+        obj.save()
+        return HttpResponseRedirect(self.success_url)
+
+
+class TaskDeleteView(LoginRequiredMixin, generic.View, generic.edit.ModelFormMixin):
+    model = models.Task
+    success_url = model.get_absolute_url()
+
+    def get_queryset(self):
+        return self.model.objects.filter(user=self.request.user)
+
+    def get(self, request, *args, **kwargs):
+        obj = self.get_object()
+        obj.toggle_delete()
+        obj.save()
+        return HttpResponseRedirect(self.success_url)
