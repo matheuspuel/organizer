@@ -9,7 +9,10 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
     model = models.Task
 
     def get_queryset(self):
-        return self.model.list_active(user=self.request.user)
+        qs = self.model.objects.filter(
+            user=self.request.user, deleted=False, complete_time=None
+        )
+        return qs.order_by('-has_started', '-priority', '-importance')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=None, **kwargs)
@@ -19,12 +22,14 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
 
 class TaskCompletedListView(TaskListView):
     def get_queryset(self):
-        return self.model.list_completed(user=self.request.user)
+        qs = self.model.objects.filter(user=self.request.user, deleted=False).exclude(complete_time=None)
+        return qs.order_by('-complete_time')
 
 
 class TaskDeletedListView(TaskListView):
     def get_queryset(self):
-        return self.model.list_deleted(user=self.request.user)
+        qs = self.model.objects.filter(user=self.request.user, deleted=True)
+        return qs
 
 
 class TaskDetailList(LoginRequiredMixin, generic.DetailView):

@@ -2,8 +2,22 @@ import datetime
 
 from django.contrib.auth.models import User
 from django.db import models
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db.models import Case, When
 from django.urls import reverse_lazy
+
+
+class TaskManager(models.Manager):
+    def get_queryset(self):
+        now = datetime.datetime.now()
+        qs = super().get_queryset().annotate(
+            has_started=Case(
+                When(start__isnull=True, then=True),
+                When(start__lt=now, then=True),
+                default=False,
+                output_field=models.BooleanField()
+            )
+        )
+        return qs
 
 
 class Task(models.Model):
@@ -25,34 +39,11 @@ class Task(models.Model):
     class Meta:
         verbose_name = "Task"
 
+    objects = TaskManager()
+
     @classmethod
     def get_absolute_url(cls):
         return reverse_lazy(cls._meta.model_name + '_list')
-
-    @property
-    def is_deleted(self):
-        return self.deleted
-
-    @property
-    def is_completed(self):
-        if self.complete_time is None:
-            return False
-        else:
-            return True
-
-    @property
-    def is_active(self):
-        if not self.is_completed and not self.is_deleted:
-            return True
-        else:
-            return False
-
-    @property
-    def has_started(self):
-        if not self.start or self.start < datetime.datetime.now():
-            return True
-        else:
-            return False
 
     @property
     def time_to_end(self):
@@ -63,52 +54,16 @@ class Task(models.Model):
         else:
             return None
 
-    @staticmethod
-    def list_active(user):
-        now = datetime.datetime.now()
-        qs_no_date = __class__.objects.filter(user=user, deleted=False, complete_time=None, start=None)\
-            .annotate(qs_order=models.Value(0, models.IntegerField()))
-
-        qs_before = __class__.objects.filter(user=user, deleted=False, complete_time=None, start__lte=now)\
-            .annotate(qs_order=models.Value(0, models.IntegerField()))
-
-        qs_started = (qs_no_date | qs_before)
-
-        qs_not_started = __class__.objects.filter(user=user, deleted=False, complete_time=None, start__gt=now)\
-            .annotate(qs_order=models.Value(1, models.IntegerField()))
-
-        return qs_started.union(qs_not_started).order_by('qs_order', '-priority', '-importance')
-
-    @staticmethod
-    def list_completed(user):
-        return __class__.objects.filter(user=user, deleted=False).exclude(complete_time=None).order_by('-complete_time')
-
-    @staticmethod
-    def list_deleted(user):
-        return __class__.objects.filter(user=user, deleted=True)
-
-    def do_complete(self):
-        self.complete_time = datetime.datetime.now()
-
-    def undo_complete(self):
-        self.complete_time = None
-
     def toggle_complete(self):
         if self.complete_time:
-            self.undo_complete()
+            self.complete_time = None
         else:
-            self.do_complete()
-
-    def do_delete(self):
-        self.deleted = True
-
-    def undo_delete(self):
-        self.deleted = False
+            self.complete_time = datetime.datetime.now()
 
     def toggle_delete(self):
         if self.deleted:
-            self.undo_delete()
+            self.deleted = False
         else:
-            self.do_delete()
+            self.deleted = True
 
 
