@@ -15,13 +15,10 @@
     <a class="btn btn-info fa fa-list" href="{% url 'task_deleted_list' %}"> Deleted</a>
 </nav>
 
-<table class="table table-striped">
-    <thead style="background-color: #bfbfbf">
+<table class="table">
+    <thead>
         <tr>
-            <th><a class="fa fa-search"></a></th>
-            <th><a class="fa fa-pencil-alt"></a></th>
-            <th><a class="fa fa-check"></a></th>
-            <th><a class="fa fa-trash"></a></th>
+            <th>More</th>
             <th>Priority</th>
             <th>Importance</th>
             <th>Title</th>
@@ -37,12 +34,9 @@
     <tbody>
         {% for object in object_list %}
 
-        <tr {% if not object.has_started %} style="background-color:lightgray;" {% endif %}>
-
-            <td><a class="btn btn-info fa fa-search" href="{% url 'task_detail' pk=object.id %}"></a></td>
-            <td><a class="btn btn-warning fa fa-pencil-alt" href="{% url 'task_update' pk=object.id %}"></a></td>
-            <td><a class="btn btn-success fa fa-check" href="{% url 'task_complete' pk=object.id %}"></a></td>
-            <td><a class="btn btn-danger fa fa-trash" href="{% url 'task_delete' pk=object.id %}"></a></td>
+        <tr {% if not object.has_started %} style="background-color:#0f171f;" {% endif %}>
+            <td><i class="btn btn-info fa fa-caret-down" onclick="showDetails(this, {{ object.id }})"></i></td>
+{#            <td><a class="btn btn-info fa fa-search" href="{% url 'task_detail' pk=object.id %}"></a></td>#}
             <td>{{object.priority|default_if_none:''}}</td>
             <td>{{object.importance|default_if_none:''}}</td>
             <td>{{object.title|default_if_none:''}}</td>
@@ -53,10 +47,53 @@
             <td>{{object.deadline|format_datetime}}</td>
             <td>{{object.time_to_end|format_timedelta:'dhm'}}</td>
             <td>{{object.status|default_if_none:''}}</td>
-
         </tr>
+
+        <tr hidden id="more_{{ object.id }}">
+            <td colspan="11" class="details_table_parent">
+                <table class="details_table">
+                    <tr>
+                        <th>Edit:</th>
+                        <th>Finish:</th>
+                        <th>Delete:</th>
+                        <th>Creation:</th>
+                        <th>Completion:</th>
+                        <th>Deleted:</th>
+                        <th>Details:</th>
+                    </tr>
+                    <tr>
+                        <td><a class="btn btn-warning fa fa-pencil-alt" href="{% url 'task_update' pk=object.id %}"></a></td>
+                        <td><a class="btn btn-success fa fa-check" href="{% url 'task_complete' pk=object.id %}"></a></td>
+                        <td><a class="btn btn-danger fa fa-trash" href="{% url 'task_delete' pk=object.id %}"></a></td>
+                        <td>{{object.create_time|format_datetime}}</td>
+                        <td>{{object.complete_time|format_datetime}}</td>
+                        <td>{{object.deleted|default_if_none:''}}</td>
+                        <td>{{object.details|linebreaksbr|default_if_none:''}}</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
         {% endfor %}
     </tbody>
 </table>
+
+<script>
+
+function showDetails(element, id){
+    var newRow = document.getElementById('more_' + id)
+    if (newRow.hidden){
+        newRow.removeAttribute('hidden')
+        element.classList.remove('fa-caret-down');
+        element.classList.add('fa-caret-up');
+
+    } else{
+        newRow.setAttribute('hidden', 'hidden')
+        element.classList.add('fa-caret-down');
+        element.classList.remove('fa-caret-up');
+    }
+}
+
+</script>
 
 {% endblock %}
