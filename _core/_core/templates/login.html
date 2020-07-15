@@ -1,26 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>Organizer</title>
     <meta charset="UTF-8">
-    <title>Planejamento</title>
+
+    {% include 'theme.html' %}
+
 </head>
 <body>
-    <h1>Login</h1>
+<div style="height: 100px; text-align: center;">
+    <h1>Organizer</h1>
+</div>
 
-    {% if next %}
-    <form action="{% url 'login_submit' %}?next={{next}}" method="post" > {% csrf_token %}
-    {%else%}
-    <form action="{% url 'login_submit' %}" method="post"> {% csrf_token %}
-    {% endif %}
+<div style="height: 200px; width: 400px; position: fixed; top: 50%; left: 50%;
+ margin-top: -100px; margin-left: -200px; display: flex; align-items: center; text-align: center; ">
+    <div style="width: 100%;">
+{#        <div style="">#}
+{#            <h3>Login</h3>#}
+{#        </div>#}
+        <div style="">
+            {% if next %}
+                <form action="{% url 'login_submit' %}?next={{ next }}" method="post"> {% csrf_token %}
+            {% else %}
+                <form action="{% url 'login_submit' %}" method="post"> {% csrf_token %}
+            {% endif %}
 
-        <div align="center">
-            <label>User:</label>
-            <input type="text" name="username" autofocus>
-            <label>Password:</label>
-            <input type="password" name="password">
-            <button type="submit">Login</button>
-
+                    <label style="margin: 0;">User:</label>
+                    <div style="margin: 0 0 10px 0;">
+                        <input type="text" name="username" autofocus>
+                    </div>
+                    <label style="margin: 0;">Password:</label>
+                    <div style="margin: 0 0 15px 0;">
+                        <input type="password" name="password">
+                    </div>
+                    <div style="">
+                        <button  style="width: 206px" type="submit" class="btn btn-success fa fa-sign-in-alt"> Login</button>
+                    </div>
+                </form>
         </div>
-    </form>
+    </div>
+</div>
 </body>
 </html>
