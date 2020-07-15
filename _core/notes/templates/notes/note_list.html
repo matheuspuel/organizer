@@ -17,7 +17,7 @@
         <th>More</th>
         <th>Title</th>
         <th>Category</th>
-        <th>Importance</th>
+        <th>Imp.</th>
     </tr>
     {% for object in object_list %}
     <tr>
@@ -33,15 +33,17 @@
                     <th>Edit:</th>
                     <th>Delete:</th>
                     <th>Creation:</th>
-                    <th>Deleted:</th>
-                    <th>Text:</th>
                 </tr>
                 <tr>
                     <td><a class="btn btn-warning fa fa-pencil-alt" href="{% url 'note_update' pk=object.id %}"></a></td>
                     <td><a class="btn btn-danger fa fa-trash" href="{% url 'note_delete' pk=object.id %}"></a></td>
                     <td>{{object.create_time|format_datetime}}</td>
-                    <td>{{object.deleted|default_if_none:''}}</td>
-                    <td>{{object.text|linebreaksbr|default_if_none:''}}</td>
+                </tr>
+                <tr>
+                    <th colspan="3">Text:</th>
+                </tr>
+                <tr>
+                    <td colspan="3">{{object.text|linebreaksbr|default_if_none:''}}</td>
                 </tr>
             </table>
         </td>
