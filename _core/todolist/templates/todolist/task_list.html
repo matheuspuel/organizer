@@ -19,16 +19,14 @@
     <thead>
         <tr>
             <th>More</th>
-            <th>Priority</th>
-            <th>Importance</th>
+            <th>Pri.</th>
+            <th>Imp.</th>
             <th>Title</th>
             <th>Category</th>
             <th>Place</th>
             <th>Duration</th>
-            <th>Start</th>
             <th>Deadline</th>
-            <th>Time Left</th>
-            <th>Status</th>
+            <th>Time</th>
         </tr>
     </thead>
     <tbody>
@@ -43,34 +41,46 @@
             <td>{{object.category|default_if_none:''}}</td>
             <td>{{object.place|default_if_none:''}}</td>
             <td>{{object.duration|format_timedelta}}</td>
-            <td>{{object.start|format_datetime}}</td>
             <td>{{object.deadline|format_datetime}}</td>
             <td>{{object.time_to_end|format_timedelta:'dhm'}}</td>
-            <td>{{object.status|default_if_none:''}}</td>
         </tr>
 
         <tr hidden id="more_{{ object.id }}">
-            <td colspan="11" class="details_table_parent">
-                <table class="details_table">
-                    <tr>
-                        <th>Edit:</th>
-                        <th>Finish:</th>
-                        <th>Delete:</th>
-                        <th>Creation:</th>
-                        <th>Completion:</th>
-                        <th>Deleted:</th>
-                        <th>Details:</th>
-                    </tr>
-                    <tr>
-                        <td><a class="btn btn-warning fa fa-pencil-alt" href="{% url 'task_update' pk=object.id %}"></a></td>
-                        <td><a class="btn btn-success fa fa-check" href="{% url 'task_complete' pk=object.id %}"></a></td>
-                        <td><a class="btn btn-danger fa fa-trash" href="{% url 'task_delete' pk=object.id %}"></a></td>
-                        <td>{{object.create_time|format_datetime}}</td>
-                        <td>{{object.complete_time|format_datetime}}</td>
-                        <td>{{object.deleted|default_if_none:''}}</td>
-                        <td>{{object.details|linebreaksbr|default_if_none:''}}</td>
-                    </tr>
-                </table>
+            <td colspan="9" class="details_table_parent">
+                <span class="details_table">
+                    <span class="detail_block">
+                        <b>Edit:</b><br>
+                        <a class="btn btn-warning fa fa-pencil-alt" href="{% url 'task_update' pk=object.id %}"></a>
+                    </span>
+                    <span class="detail_block">
+                        <b>Finish:</b><br>
+                        <a class="btn btn-success fa fa-check" href="{% url 'task_complete' pk=object.id %}"></a>
+                    </span>
+                    <span class="detail_block">
+                        <b>Delete:</b><br>
+                        <a class="btn btn-danger fa fa-trash" href="{% url 'task_delete' pk=object.id %}"></a>
+                    </span>
+                    <span class="detail_block">
+                        <b>Creation:</b><br>
+                        {{object.create_time|format_datetime}}
+                    </span>
+                    <span class="detail_block">
+                        <b>Start:</b><br>
+                        {{object.start|format_datetime}}
+                    </span>
+                    <span class="detail_block">
+                        <b>Completion:</b><br>
+                        {{object.complete_time|format_datetime}}
+                    </span>
+                    <span class="detail_block">
+                        <b>Status:</b><br>
+                        {{object.status|default_if_none:''}}
+                    </span>
+                    <span class="detail_block">
+                        <b>Details:</b><br>
+                        {{object.details|linebreaksbr|default_if_none:''}}
+                    </span>
+                </span>
             </td>
         </tr>
 

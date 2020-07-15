@@ -1,4 +1,20 @@
-<form method="post" action="{% url 'task_quick_create' %}" style="margin-left: 15px">{% csrf_token %}
-    {{ quick_form.as_table }}
-    <input type="submit" value="Quick Save" class="btn btn-success">
+
+<form method="post" action="{% url 'task_quick_create' %}">{% csrf_token %}
+    <div style="margin: 0 15px 0 15px; display: block; overflow: hidden; max-width: 800px;">
+
+        <span style="float: right;">
+            <button type="submit" class="btn btn-success fa fa-save" style="margin: 0;">
+                <i class=""></i> Save
+            </button>
+        </span>
+
+        <span style="float: left; overflow: hidden;">
+            {{ quick_form.title.label }}:
+        </span>
+
+        <span style="display: block; overflow: hidden; padding: 0 5px 0 5px;">
+            {{ quick_form.title }}
+        </span>
+
+    </div>
 </form>

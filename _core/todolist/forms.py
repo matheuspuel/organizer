@@ -35,7 +35,7 @@ class TaskQuickModelForm(forms.ModelForm):
         model = models.Task
         fields = ('title', )
 
-    title = forms.CharField(widget=forms.TextInput(attrs={
+    title = forms.CharField(max_length=120, widget=forms.TextInput(attrs={
         'autofocus': 'autofocus',
-        'size': '100'
+        'style': 'width: 100%;',
     }))
