@@ -70,8 +70,7 @@ class TaskCreateView(LoginRequiredMixin, generic.CreateView):
 
 class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = models.Task
-    fields = (
-        'title', 'details', 'category', 'place', 'start', 'deadline', 'duration', 'importance', 'priority', 'status',)
+    form_class = forms.TaskModelForm
 
     def get_queryset(self):
         return self.model.objects.filter(user=self.request.user)
