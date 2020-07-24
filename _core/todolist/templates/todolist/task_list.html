@@ -25,7 +25,6 @@
             <th>Category</th>
             <th>Place</th>
             <th>Duration</th>
-            <th>Deadline</th>
             <th>Time</th>
         </tr>
     </thead>
@@ -41,12 +40,11 @@
             <td>{{object.category|default_if_none:''}}</td>
             <td>{{object.place|default_if_none:''}}</td>
             <td>{{object.duration|format_timedelta}}</td>
-            <td>{{object.deadline|format_datetime}}</td>
             <td>{{object.time_to_end|format_timedelta:'dhm'}}</td>
         </tr>
 
         <tr hidden id="more_{{ object.id }}">
-            <td colspan="9" class="details_table_parent">
+            <td colspan="8" class="details_table_parent">
                 <span class="details_table">
                     <span class="detail_block">
                         <b>Edit:</b><br>
@@ -67,6 +65,10 @@
                     <span class="detail_block">
                         <b>Start:</b><br>
                         {{object.start|format_datetime}}
+                    </span>
+                    <span class="detail_block">
+                        <b>Deadline:</b><br>
+                        {{object.deadline|format_datetime}}
                     </span>
                     <span class="detail_block">
                         <b>Completion:</b><br>
